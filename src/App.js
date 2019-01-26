@@ -1,25 +1,27 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import Home from './pages/Home'
-import Vote from './pages/Vote'
+import NavLink from './components/NavLink';
+
+import Home from './pages/Home';
+import Vote from './pages/Vote';
 
 class App extends Component {
   render() {
     return (
       <Router>
         <div style={styles.body}>
-          <nav>
-            <ul style={styles.nav}>
-              <li>
-                <Link to="/">Home</Link>
-                <Link to="/vote">Vote</Link>
-              </li>
-            </ul>
-          </nav>
+          <div style={styles.nav}>
+            <span style={styles.navLeft}>
+              <NavLink to='/' text='Home' />
+            </span>
+            <span style={styles.navRight}>
+              <NavLink to='/vote' text='Vote' />
+            </span>
+          </div>
 
-          <Route path="/" exact component={Home} />
-          <Route path="/vote" exact component={Vote} />
+          <Route path='/' exact component={Home} />
+          <Route path='/vote' exact component={Vote} />
         </div>
       </Router>
     );
@@ -28,13 +30,18 @@ class App extends Component {
 
 const styles = {
   body: {
-    backgroundColor: "red",
+    backgroundColor: 'red',
     margin: 0,
     padding: 0,
   },
   nav: {
-    margin: 0,
+    padding: '10px 10%',
+    backgroundColor: 'black',
   },
-}
+  navLeft: {},
+  navRight: {
+    float: "right",
+  },
+};
 
 export default App;
