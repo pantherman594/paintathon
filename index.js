@@ -61,7 +61,7 @@ app.post('/update', (req, res) => {
     }
   }
 
-  votes.forEach((vote) => {
+  Object.keys(votes).forEach((vote) => {
     if (votes[vote] > votes[topVote]) {
       topVote = vote;
     }
