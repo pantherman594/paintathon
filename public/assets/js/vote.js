@@ -65,6 +65,7 @@ const updateVotes = (votes) => {
     });
 
     $('#image-view').fadeIn();
+    $('body').css('overflow', 'hidden');
   });
 
 
@@ -90,11 +91,13 @@ $('#show_overlaid').on('change', () => {
 
 $('#image-view').on('click', () => {
   $('#image-view').fadeOut();
+  $('body').css('overflow', 'initial');
 });
 
 $('body').on('keyup', (e) => {
   if (e.which === 27) {
     $('#image-view').fadeOut();
+    $('body').css('overflow', 'initial');
   }
 });
 
