@@ -17,11 +17,13 @@ app.use(bodyParser.json());
 app.use(fileUpload());
 
 const backgroundPath = './background.jpg';
+const overlayPath = './overlay.png';
 
 const votes = {};
 let first = true;
 fs.readdir('./images', (err, files) => {
   files.forEach((file) => {
+    if (file.substring(0, 1) === '.') return;
     let fileName = file.substring(0, file.length - 4);
     if (fileName.endsWith('.overlaid')) return;
     console.log(fileName);
@@ -75,6 +77,7 @@ app.post('/upload', (req, res) => {
   let filePath = `${fileName}.png`;
   let resizePath = `${fileName}.resize.png`;
   let distortPath = `${fileName}.distorted.png`;
+  let combinedPath = `${fileName}.combined.png`;
   let overlaidPath = `${fileName}.overlaid.png`;
   file.mv(filePath, (err) => {
     if (err) {
@@ -102,20 +105,32 @@ app.post('/upload', (req, res) => {
         cp.on('close', (code) => {
           gm()
             .command('composite')
+            .in(overlayPath)
             .in(distortPath)
-            .in(backgroundPath)
-            // .in(overlayPath)
-            .write(overlaidPath, (err4) => {
+            .write(combinedPath, (err4) => {
               if (err4) {
                 console.log('err4');
                 console.log(err4);
                 return res.status(500).send(err4);
               }
 
-              fs.unlink(resizePath, () => {});
-              fs.unlink(distortPath, () => {});
-              console.log('success');
-              return res.end();
+              gm()
+                .command('composite')
+                .in(combinedPath)
+                .in(backgroundPath)
+                .write(overlaidPath, (err5) => {
+                  if (err5) {
+                    console.log('err5');
+                    console.log(err5);
+                    return res.status(500).send(err4);
+                  }
+
+                  fs.unlink(resizePath, () => {});
+                  fs.unlink(distortPath, () => {});
+                  fs.unlink(combinedPath, () => {});
+                  console.log('success');
+                  return res.end();
+                });
             });
           });
     });
