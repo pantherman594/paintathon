@@ -1,4 +1,6 @@
 $(document).ready(() => {
+  $('#top-image').css('background-image', `url(/img/top.png?d=${new Date().getTime()})`);
+
   $('.code-wrapper').on('mousemove', function(e) {
     var offsets = $(this).offset();
     var fullWidth = $(this).width();
