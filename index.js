@@ -64,10 +64,14 @@ app.post('/update', (req, res) => {
 
 app.post('/upload', (req, res) => {
   if (Object.keys(req.files).length === 0) {
-    return res.status(400).send('No files were uploaded.');
+    return res.status(400).send('No acceptable files were uploaded.');
   }
 
   let file = req.files[0];
+  const origName = file['name'].toLowerCase();
+  if (!(origName.endsWith('.jpg') || origName.endsWith('.jpeg') || origName.endsWith('.png'))) {
+    return res.status(400).send('No acceptable files were uploaded.');
+  }
   const uuid = uuidv1();
   votes[uuid] = 0;
 
