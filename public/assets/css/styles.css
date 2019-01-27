@@ -41,6 +41,22 @@ body {
   margin: 100px auto;
 }
 
+#upload-box {
+  text-align: center;
+}
+
+.success, .error {
+  display: none;
+}
+
+.success {
+  color: green;
+}
+
+.error {
+  color: red;
+}
+
 #vote-grid {
   margin: 0 auto;
   text-align: center;
@@ -56,6 +72,16 @@ body {
   cursor: pointer;
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.vote-item > span {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
 }
 
 #image-view {
@@ -143,4 +169,51 @@ body {
   background-size: cover;
   position: absolute;
   transform: translateX(-50%);
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 17px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 17px;
+  background-color: #ccc;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 13px;
+  width: 13px;
+  left: 2px;
+  bottom: 2px;
+  border-radius: 50%;
+  background-color: white;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(13px);
 }
