@@ -9,6 +9,7 @@ $('form').on('submit', (e) => {
   e.preventDefault();
 
   $('.success, .error').hide();
+  $('.uploading').show();
   const data = new FormData();
   $.each(files, (key, val) => {
     data.append(key, val);
@@ -23,6 +24,7 @@ $('form').on('submit', (e) => {
     contentType: false,
     complete: (data2) => {
       console.log(data2);
+      $('.uploading').hide();
       if (data2.status === 200) {
         $('.success').show();
       } else {

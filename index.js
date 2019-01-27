@@ -2,6 +2,7 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const fileUpload = require('express-fileupload');
 
+const path = require('path');
 const fs = require('fs');
 const uuidv1 = require('uuid/v1');
 const gm = require('gm').subClass({ imageMagick: true });
@@ -70,12 +71,11 @@ app.post('/upload', (req, res) => {
   const uuid = uuidv1();
   votes[uuid] = 0;
 
-  let fileName = `./images/${uuid}`;
-  let filePath = `${fileName}.png`;
-  let resizePath = `${fileName}.resize.png`;
-  let distortPath = `${fileName}.distorted.png`;
-  let combinedPath = `${fileName}.combined.png`;
-  let overlaidPath = `${fileName}.overlaid.png`;
+  let filePath = path.join(__dirname, 'images', `${uuid}.png`)
+  let resizePath = path.join(__dirname, 'images', `${uuid}.resize.png`)
+  let distortPath = path.join(__dirname, 'images', `${uuid}.distort.png`)
+  let combinedPath = path.join(__dirname, 'images', `${uuid}.combined.png`)
+  let overlaidPath = path.join(__dirname, 'images', `${uuid}.overlaid.png`)
   file.mv(filePath, (err) => {
     if (err) {
       console.log('err');
