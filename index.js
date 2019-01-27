@@ -135,6 +135,21 @@ app.post('/upload', (req, res) => {
 });
 
 app.use('/img', express.static('images'));
+
+app.use((req, res, next) => {
+  if (req.path.indexOf('.') === -1) {
+    const file = `public${req.path}.html`;
+    fs.exists(file, (exists) => {
+      if (exists) {
+        req.url += '.html';
+      }
+      next();
+    });
+  } else {
+    next();
+  }
+});
+
 app.use(express.static('public'));
 
 server.listen(port, () => console.log(`Listening on port ${port}...`));
