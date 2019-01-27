@@ -1,6 +1,11 @@
 let cookies;
 let votes = {};
 
+const socket = io('/');
+socket.on('votes', (votes) => {
+	updateVotes(votes);
+});
+
 const updateVotes = (votes) => {
   votes = votes;
   let sum = 0;
@@ -99,6 +104,7 @@ setCookie = (name, value) => {
 };
 
 $(document).ready(() => {
+
   const decodedCookie = decodeURIComponent(document.cookie);
   const ca = decodedCookie.split(';');
   cookies = {};

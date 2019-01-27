@@ -26,7 +26,6 @@ fs.readdir('./images', (err, files) => {
     if (file.substring(0, 1) === '.') return;
     let fileName = file.substring(0, file.length - 4);
     if (fileName.endsWith('.overlaid')) return;
-    console.log(fileName);
     votes[fileName] = 0;
     if (first === true) {
       votes[fileName] = 1;
@@ -40,7 +39,6 @@ app.get('/votes', (req, res) => {
 });
 
 app.post('/update', (req, res) => {
-  console.log(req.body);
   let id = req.body.add;
   let removes = req.body['remove[]'];
   if (id) {
@@ -71,7 +69,6 @@ app.post('/upload', (req, res) => {
   let file = req.files[0];
   const uuid = uuidv1();
   votes[uuid] = 0;
-  console.log(uuid);
 
   let fileName = `./images/${uuid}`;
   let filePath = `${fileName}.png`;
