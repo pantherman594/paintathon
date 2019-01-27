@@ -130,6 +130,8 @@ app.post('/upload', (req, res) => {
                   fs.unlink(distortPath, () => {});
                   fs.unlink(combinedPath, () => {});
                   console.log('success');
+
+                  socket.emit('votes', votes);
                   return res.end();
                 });
             });
