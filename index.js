@@ -21,6 +21,8 @@ const backgroundPath = './background.jpg';
 const overlayPath = './overlay.png';
 
 const votes = {};
+let topVote = '';
+
 let first = true;
 fs.readdir('./images', (err, files) => {
   files.forEach((file) => {
@@ -30,6 +32,7 @@ fs.readdir('./images', (err, files) => {
     votes[fileName] = 0;
     if (first === true) {
       votes[fileName] = 1;
+      topVote = fileName;
       first = false;
     }
   });
@@ -58,6 +61,11 @@ app.post('/update', (req, res) => {
     }
   }
 
+  votes.forEach((vote) => {
+    if (votes[vote] > votes[topVote]) {
+      topVote = vote;
+    }
+  });
   socket.emit('votes', votes);
   return res.json(votes);
 });
@@ -138,6 +146,10 @@ app.post('/upload', (req, res) => {
           });
     });
   });
+});
+
+app.get('/img/top.png', (req, res, next) => {
+  res.redirect(`/img/${topVote}.overlaid.png`);
 });
 
 app.use('/img', express.static('images'));
